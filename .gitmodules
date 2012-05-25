@@ -1,0 +1,15 @@
+[submodule "vendor/ZendFramework"]
+	path = vendor/ZendFramework
+	url = https://github.com/zendframework/zf2.git
+[submodule "vendor/ZfcAcl"]
+	path = vendor/ZfcAcl
+	url = git://github.com/ZF-Commons/ZfcAcl.git
+[submodule "vendor/ZfcBase"]
+	path = vendor/ZfcBase
+	url = https://github.com/ZF-Commons/ZfcBase.git
+[submodule "vendor/ZfcUser"]
+	path = vendor/ZfcUser
+	url = https://github.com/ZF-Commons/ZfcUser.git
+[submodule "vendor/ZfcUserAcl"]
+	path = vendor/ZfcUserAcl
+	url = git://github.com/bjyoungblood/ZfcUserAcl.git
