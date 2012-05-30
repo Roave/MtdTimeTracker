@@ -44,7 +44,7 @@ class Module implements
                 // Controller: index, action: time
                 // Allow user and admin
                 'allow/dispatchable/index/authenticated' => array(
-                    array('user', 'admin'), 'dispatchable/index', array('time')
+                    array('user', 'admin'), 'dispatchable/index'
                 ),
                 'allow/dispatchable/zfcuser' => array(
                     array(), 'dispatchable/zfcuser'
@@ -69,12 +69,18 @@ class Module implements
                 'Application\Service\Tracker' => function ($sm) {
                     $service = new Service\Tracker;
                     $service->setSessionMapper($sm->get('Application\Model\SessionMapper'));
+                    $service->setSessionSplitMapper($sm->get('Application\Model\SessionSplitMapper'));
                     return $service;
                 },
                 'Application\Model\SessionMapper' => function($sm) {
                     $adapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $tg = new \Zend\Db\TableGateway\TableGateway('mtdtt_session', $adapter);
                     return new Model\SessionMapper($tg);
+                },
+                'Application\Model\SessionSplitMapper' => function($sm) {
+                    $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tg = new \Zend\Db\TableGateway\TableGateway('mtdtt_session_split', $adapter);
+                    return new Model\SessionSplitMapper($tg);
                 },
             ),
         );

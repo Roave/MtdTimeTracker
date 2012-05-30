@@ -4,7 +4,7 @@ namespace Application\Model;
 
 use ZfcBase\Model\ModelAbstract;
 
-class Session extends ModelAbstract
+class Project extends ModelAbstract
 {
     protected $projectId;
     protected $userId;

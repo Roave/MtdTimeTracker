@@ -24,14 +24,72 @@ class IndexController extends ActionController
         if (!$openSession) {
             return array(
                 'open'      => false,
-                'session'   => null
+                'runtime'   => '00:00:00',
+                'session'   => null,
+                'paused'    => false,
+            );
+        }
+
+        $timeDisplay = $this->runtimeToString($this->trackerService->calculateRuntime($openSession));
+
+        if ($this->trackerService->isPaused($openSession)) {
+            return array(
+                'open'      => false,
+                'session'   => $openSession,
+                'runtime'   => $timeDisplay,
+                'paused'    => true
             );
         }
 
         return array(
             'open'      => true,
-            'session'   => $openSession
+            'paused'    => false,
+            'session'   => $openSession,
+            'runtime'   => $timeDisplay
         );
+    }
+
+    public function splitAction()
+    {
+        $userId = $this->userService->getAuthService()->getIdentity();
+        $openSession = $this->trackerService->getActiveSession($userId);
+
+        $get = $this->request()->query();
+        if ($get['type'] === 'resume') {
+            $this->trackerService->resumeSession($openSession);
+        } else if ($get['type'] === 'pause') {
+            $this->trackerService->pauseSession($openSession);
+        }
+
+        return $this->redirect()->toUrl('/index/time');
+    }
+
+    protected function runtimeToString($time)
+    {
+        $hours = $minutes = $seconds = 0;
+
+        if ($time >= 3600) {
+            $hours = floor($time / 3600);
+            $time -= $hours * 3600;
+        }
+
+        if ($time >= 60) {
+            $minutes = floor($time / 60);
+            $time -= $minutes * 60;
+        }
+
+        $seconds = $time;
+
+        return $this->zeropad($hours) . ':' . $this->zeropad($minutes) . ':' . $this->zeropad($seconds);
+    }
+
+    protected function zeropad($num)
+    {
+        if (strlen($num) === 1) {
+            return '0' . $num;
+        } else {
+            return $num;
+        }
     }
 
     public function getAclService()

@@ -4,31 +4,31 @@ namespace Application\Model;
 
 use ZfcBase\Model\ModelAbstract;
 
-class Session extends ModelAbstract
+class SessionSplit extends ModelAbstract
 {
-    protected $sessionId;
-    protected $splitTime;
+    protected $session_id;
+    protected $split_time;
     protected $type;
  
     public function getSessionId()
     {
-        return $this->sessionId;
+        return $this->session_id;
     }
  
-    public function setSessionId($sessionId)
+    public function setSessionId($session_id)
     {
-        $this->sessionId = $sessionId;
+        $this->session_id = $session_id;
         return $this;
     }
  
     public function getSplitTime()
     {
-        return $this->splitTime;
+        return $this->split_time;
     }
  
-    public function setSplitTime($splitTime)
+    public function setSplitTime($split_time)
     {
-        $this->splitTime = $splitTime;
+        $this->split_time = $split_time;
         return $this;
     }
  
