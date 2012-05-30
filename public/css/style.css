@@ -7,6 +7,10 @@ body {
     color: #68b604; 
 }
 
+.zf-red {
+    color: #b63204;
+}
+
 .btn-success {
   background-color: #57a900;
   background-image: -moz-linear-gradient(top, #70d900, #57a900);

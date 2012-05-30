@@ -20,8 +20,17 @@ class IndexController extends ActionController
     {
         $userId = $this->userService->getAuthService()->getIdentity();
         $openSession = $this->trackerService->getActiveSession($userId);
+
+        if (!$openSession) {
+            return array(
+                'open'      => false,
+                'session'   => null
+            );
+        }
+
         return array(
-            'session' => $openSession
+            'open'      => true,
+            'session'   => $openSession
         );
     }
 

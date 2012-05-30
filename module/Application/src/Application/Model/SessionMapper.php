@@ -29,6 +29,10 @@ class SessionMapper extends DbMapperAbstract
         $rowset = $this->getTableGateway()->selectWith($sql);
         $row = $rowset->current();
 
+        if (!$row) {
+            return false;
+        }
+
         return Session::fromArray((array) $row);
     }
 }

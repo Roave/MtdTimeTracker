@@ -2,7 +2,11 @@
 $this->headScript()->appendFile('http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
 ?>
 <div class="hero-unit">
+    <?php if ($this->open) : ?>
     <h1>Session: <span class="zf-green" id="timer"><?=date('h:i:s', $this->session->getStart())?></span></h1>
+    <?php else : ?>
+    <h1>Session: <span class="zf-red" id="timer">00:00:00</span></h1>
+    <?php endif; ?>
 </div>
 <div class="row">
     <div class="span4">
@@ -45,6 +49,10 @@ var updateTime = function() {
         + ':' + zeropad(diff.getSeconds()));
     setTimeout(updateTime, 10);
 };
+</script>
 
+<?php if ($this->open) : ?>
+<script type="text/javascript">
 setTimeout(updateTime, 10);
 </script>
+<?php endif; ?>
