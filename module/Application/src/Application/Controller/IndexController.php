@@ -13,11 +13,6 @@ class IndexController extends ActionController
 
     public function indexAction()
     {
-        return new ViewModel();
-    }
-
-    public function timeAction()
-    {
         $userId = $this->userService->getAuthService()->getIdentity();
         $openSession = $this->trackerService->getActiveSession($userId);
 
@@ -79,14 +74,14 @@ class IndexController extends ActionController
             $this->trackerService->pauseSession($openSession);
         }
 
-        return $this->redirect()->toUrl('/index/time');
+        return $this->redirect()->toUrl('/');
     }
 
     public function startAction()
     {
         $userId = $this->userService->getAuthService()->getIdentity();
         $this->trackerService->startSession($userId);
-        return $this->redirect()->toUrl('/index/time');
+        return $this->redirect()->toUrl('time');
     }
 
     public function stopAction()
@@ -95,7 +90,7 @@ class IndexController extends ActionController
         $openSession = $this->trackerService->getActiveSession($userId);
 
         $this->trackerService->endSession($openSession);
-        return $this->redirect()->toUrl('/index/time');
+        return $this->redirect()->toUrl('time');
     }
 
     protected function runtimeToString($time)
