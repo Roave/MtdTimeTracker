@@ -13,6 +13,10 @@ class IndexController extends ActionController
 
     public function indexAction()
     {
+        if (!$this->userService->getAuthService()->hasIdentity()) {
+            return $this->redirect()->toRoute('zfcuser');
+        }
+
         $userId = $this->userService->getAuthService()->getIdentity();
         $openSession = $this->trackerService->getActiveSession($userId);
 
@@ -81,7 +85,7 @@ class IndexController extends ActionController
     {
         $userId = $this->userService->getAuthService()->getIdentity();
         $this->trackerService->startSession($userId);
-        return $this->redirect()->toUrl('time');
+        return $this->redirect()->toUrl('/');
     }
 
     public function stopAction()
@@ -90,7 +94,7 @@ class IndexController extends ActionController
         $openSession = $this->trackerService->getActiveSession($userId);
 
         $this->trackerService->endSession($openSession);
-        return $this->redirect()->toUrl('time');
+        return $this->redirect()->toUrl('/');
     }
 
     protected function runtimeToString($time)
