@@ -10,6 +10,11 @@ class Tracker
     protected $sessionMapper;
     protected $sessionSplitMapper;
 
+    public function findByUserId($userId)
+    {
+        return $this->sessionMapper->findByUserId($userId);
+    }
+
     public function getActiveSession($userId)
     {
         return $this->sessionMapper->findActiveByUserId($userId);
@@ -31,6 +36,23 @@ class Tracker
         return !$sessionRunning;
     }
 
+    public function startSession($userId)
+    {
+        $session = new Session;
+        $session->setStart(time())
+            ->setUserId($userId);
+
+        $this->sessionMapper->persist($session);
+        return true;
+    }
+
+    public function endSession(Session $session)
+    {
+        $session->setEnd(time());
+        $this->sessionMapper->persist($session);
+        return true;
+    }
+
     public function calculateRuntime(Session $session)
     {
         $base = $session->getStart();
@@ -48,8 +70,12 @@ class Tracker
             }
         }
 
-        if ($running === true) {
-            $runtime += (time() - $base);
+        if ($session->getEnd() == 0) {
+            if ($running === true) {
+                $runtime += (time() - $base);
+            }
+        } else {
+            $runtime += ($session->getEnd() - $base);
         }
 
         return $runtime;

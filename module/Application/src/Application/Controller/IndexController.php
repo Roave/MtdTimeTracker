@@ -49,6 +49,24 @@ class IndexController extends ActionController
         );
     }
 
+    public function sessionsAction()
+    {
+        $userId = $this->userService->getAuthService()->getIdentity();
+        $sessions = $this->trackerService->findByUserId($userId);
+
+        $all = array();
+        foreach ($sessions as $s) {
+            $all[] = array(
+                'session' => $s,
+                'runtime' => $this->runtimeToString($this->trackerService->calculateRuntime($s))
+            );
+        }
+
+        return array(
+            'sessions' => $all
+        );
+    }
+
     public function splitAction()
     {
         $userId = $this->userService->getAuthService()->getIdentity();
@@ -61,6 +79,22 @@ class IndexController extends ActionController
             $this->trackerService->pauseSession($openSession);
         }
 
+        return $this->redirect()->toUrl('/index/time');
+    }
+
+    public function startAction()
+    {
+        $userId = $this->userService->getAuthService()->getIdentity();
+        $this->trackerService->startSession($userId);
+        return $this->redirect()->toUrl('/index/time');
+    }
+
+    public function stopAction()
+    {
+        $userId = $this->userService->getAuthService()->getIdentity();
+        $openSession = $this->trackerService->getActiveSession($userId);
+
+        $this->trackerService->endSession($openSession);
         return $this->redirect()->toUrl('/index/time');
     }
 

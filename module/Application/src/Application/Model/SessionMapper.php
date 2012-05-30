@@ -4,11 +4,24 @@ namespace Application\Model;
 
 use ZfcBase\Mapper\DbMapperAbstract,
     Zend\Db\Sql\Select,
-    Zend\Db\Sql\Where;
+    Zend\Db\Sql\Where,
+    ArrayObject;
 
 class SessionMapper extends DbMapperAbstract
 {
     protected $tableName = 'mtdtt_session';
+
+    public function persist(Session $session)
+    {
+        $data = new ArrayObject($this->toScalarValueArray($session));
+        if ($session->getSessionId() > 0) {
+            $this->getTableGateway()->update((array) $data, array('session_id' => $session->getSessionId()));
+        } else {
+            $this->getTableGateway()->insert((array) $data);
+            $sessionId = $this->getTableGateway()->getAdapter()->getDriver()->getLastGeneratedValue();
+            $session->setSessionId($sessionId);
+        }
+    }
 
     public function findByUserId($userId)
     {

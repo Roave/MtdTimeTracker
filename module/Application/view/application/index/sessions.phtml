@@ -1,0 +1,19 @@
+<table width="100%">
+    <tr>
+        <th>Session ID</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Runtime</th>
+    </tr>
+    <?php foreach ($this->sessions as $s) : ?>
+    <tr>
+        <td><?=$s['session']->getSessionId()?></td>
+        <td><?=date('r', $s['session']->getStart())?></td>
+        <?php if ($s['session']->getEnd() != null) : ?>
+            <td><?=date('r', $s['session']->getEnd())?></td>
+        <?php else: ?>
+            <td>N/A</td>
+        <?php endif; ?>
+        <td><?=$s['runtime']?></td>
+    <?php endforeach; ?>
+</table>

@@ -6,30 +6,30 @@ use ZfcBase\Model\ModelAbstract;
 
 class Session extends ModelAbstract
 {
-    protected $sessionId;
-    protected $userId;
+    protected $session_id;
+    protected $user_id;
     protected $start;
     protected $end;
  
     public function getSessionId()
     {
-        return $this->sessionId;
+        return $this->session_id;
     }
  
-    public function setSessionId($sessionId)
+    public function setSessionId($session_id)
     {
-        $this->sessionId = $sessionId;
+        $this->session_id = $session_id;
         return $this;
     }
  
     public function getUserId()
     {
-        return $this->userId;
+        return $this->user_id;
     }
  
-    public function setUserId($userId)
+    public function setUserId($user_id)
     {
-        $this->userId = $userId;
+        $this->user_id = $user_id;
         return $this;
     }
  
