@@ -10,9 +10,12 @@ they spend (a) at work and (b) on different projects.
 
 Current Goals
 -------------
- - Ease payroll administration
- - Track billable hours for clients
- - Track and analyze employee work habits
+ - Simple time session tracking with splits (pause/resume without changing
+   sessions) [COMPLETE]
+ - Ease payroll administration with simple reports [TODO]
+ - Track billable hours for clients [TODO]
+ - Track time on multiple projects within the same session [TODO]
+ - Track and analyze employee work habits [TODO]
 
 Future Ideas
 ------------
