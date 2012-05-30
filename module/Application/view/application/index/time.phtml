@@ -1,0 +1,50 @@
+<?php
+$this->headScript()->appendFile('http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
+?>
+<div class="hero-unit">
+    <h1>Session: <span class="zf-green" id="timer"><?=date('h:i:s', $this->session->getStart())?></span></h1>
+</div>
+<div class="row">
+    <div class="span4">
+        <h2>Session</h2>
+        <p>Start/Resume Session</p>
+        <p>Pause Session</p>
+        <p>End Session</p>
+    </div>
+    <div class="span4">
+        <h2>Projects</h2>
+        <p>Switch Project</p>
+        <p>New Project</p>
+    </div>
+    <div class="span4">
+        <h2>Management</h2>
+        <p>View Logs</p>
+        <p>Edit Clock</p>
+    </div>
+</div>
+<script type="text/javascript">
+var time = $('#timer').text().split(':');
+
+var start = new Date();
+start.setUTCHours(parseInt(time[0], 10));
+start.setUTCMinutes(parseInt(time[1], 10));
+start.setUTCSeconds(parseInt(time[2], 10));
+
+var zeropad = function(num) {
+    if (num.toString().length <= 1) {
+        return "0" + num;
+    } else {
+        return num;
+    }
+};
+
+var updateTime = function() {
+    var diff = new Date(new Date() - start);
+    $('#timer').text(zeropad(diff.getHours())
+        + ':' + zeropad(diff.getMinutes())
+        + ':' + zeropad(diff.getSeconds()));
+    setTimeout(updateTime, 10);
+};
+
+setTimeout(updateTime, 10);
+</script>

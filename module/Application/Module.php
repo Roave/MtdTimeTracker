@@ -21,9 +21,8 @@ class Module implements
     public function loadAclResources()
     {
         return array(
-            'dispatchable/Application\\Controller\\IndexController' => array(
-                'index' => null,
-            ),
+            'dispatchable/index' => null,
+            'dispatchable/zfcuser' => null,
         );
     }
 
@@ -37,18 +36,18 @@ class Module implements
     {
         return array(
             'allow' => array(
-                // Allow all permissions on the 'index' resource
-                'allow/index/all' => array(
-                    array('admin'), 'index'
+                // Controller: index, action: index
+                // Allow all roles
+                'allow/dispatchable/index/all' => array(
+                    array(), 'dispatchable/index', array('index')
                 ),
-                // Allow all roles the 'view' privilege on the 'index' resource
-                'allow/index/view' => array(
-                    array(), 'index', 'view',
+                // Controller: index, action: time
+                // Allow user and admin
+                'allow/dispatchable/index/authenticated' => array(
+                    array('user', 'admin'), 'dispatchable/index', array('time')
                 ),
-                // Allow the 'admin' role the 'edit' privilege on the 'index' 
-                // resource
-                'allow/index/edit' => array(
-                    array('admin'), 'index', 'edit'
+                'allow/dispatchable/zfcuser' => array(
+                    array(), 'dispatchable/zfcuser'
                 ),
             ),
             'deny' => array(
@@ -60,6 +59,23 @@ class Module implements
     {
         return array(
             'factories' => array(
+                'Application\Controller\IndexController' => function ($sm) {
+                    $controller = new Application\Controller\IndexController;
+                    $controller->setTrackerService($sm->get('Application\Service\Tracker'));
+                    $controller->setUserService($sm->get('ZfcUser\Service\User'));
+                    $controller->setAclService($sm->get('ZfcAcl\Service\Acl'));
+                    return $controller;
+                },
+                'Application\Service\Tracker' => function ($sm) {
+                    $service = new Service\Tracker;
+                    $service->setSessionMapper($sm->get('Application\Model\SessionMapper'));
+                    return $service;
+                },
+                'Application\Model\SessionMapper' => function($sm) {
+                    $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tg = new \Zend\Db\TableGateway\TableGateway('mtdtt_session', $adapter);
+                    return new Model\SessionMapper($tg);
+                },
             ),
         );
     }

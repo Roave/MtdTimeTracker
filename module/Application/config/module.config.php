@@ -29,8 +29,8 @@ return array(
         ),
     ),
     'controller' => array(
-        'classes' => array(
-            'index' => 'Application\Controller\IndexController'
+        'factories' => array(
+            'index' => 'Application\Service\ControllerFactory',
         ),
     ),
     'view_manager' => array(

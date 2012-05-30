@@ -23,4 +23,13 @@ return array(
         'factories'    => array(
         ),
     ),
+    'ZfcAcl' => array(
+        'options' => array(
+            'enable_guards' => array(
+                'route'     => true,
+                'event'     => false,
+                'dispatch'  => true,
+            ),
+        ),
+    ),
 );
